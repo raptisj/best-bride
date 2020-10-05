@@ -1,25 +1,33 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import theme from "./theme";
+import { ThemeProvider, CSSReset } from "@chakra-ui/core";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import NotFoundPage from "./components/NotFoundPage";
+import Navigation from "./ui/Navigation";
+import Categories from "./components/Categories";
+import ProductsContainer from "./components/ProductsContainer";
+import SingleProduct from "./components/SingleProduct";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <CSSReset />
+      <Router>
+        <Navigation />
+
+        <Switch>
+          <Route exact path="/" component={Categories} />
+          <Route exact path="/products/:id/:slug" component={SingleProduct} />
+          <Route
+            exact
+            path="/categories/:id/products"
+            component={ProductsContainer}
+          />
+          <Route component={NotFoundPage} />
+        </Switch>
+      </Router>
+    </ThemeProvider>
   );
 }
 
